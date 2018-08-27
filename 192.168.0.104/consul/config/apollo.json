@@ -21,6 +21,17 @@
 			"http": "http://192.168.0.104:8090/health",
 			"interval": "10s"
 		  }
+		},
+		{
+		  "id": "apollo-portal-04",
+		  "name": "apollo-portal",
+		  "address": "192.168.0.104",
+		  "port": 8070,
+		  "check": {
+			"deregisterCriticalServiceAfter": "90m",
+			"http": "http://192.168.0.104:8070/health",
+			"interval": "10s"
+		  }
 		}
 	]
 }
