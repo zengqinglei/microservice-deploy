@@ -21,7 +21,7 @@ services:
     depends_on:
       - nginx
     volumes:
-      - "${Workdir}/keepalived/:/usr/local/etc/keepalived/"
+      - "${Workdir}/keepalived/:/etc/keepalived/"
 
   consul:
     container_name: consul-${Node}
