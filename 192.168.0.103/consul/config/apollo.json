@@ -1,0 +1,37 @@
+{
+	"services": [
+		{
+		  "id": "apollo-configservice-03",
+		  "name": "apollo-configservice",
+		  "address": "192.168.0.103",
+		  "port": 8080,
+		  "check": {
+			"deregisterCriticalServiceAfter": "90m",
+			"http": "http://192.168.0.103:8080/health",
+			"interval": "10s"
+		  }
+		},
+		{
+		  "id": "apollo-adminservice-03",
+		  "name": "apollo-adminservice",
+		  "address": "192.168.0.103",
+		  "port": 8090,
+		  "check": {
+			"deregisterCriticalServiceAfter": "90m",
+			"http": "http://192.168.0.103:8090/health",
+			"interval": "10s"
+		  }
+		},
+		{
+		  "id": "apollo-portal-03",
+		  "name": "apollo-portal",
+		  "address": "192.168.0.103",
+		  "port": 8070,
+		  "check": {
+			"deregisterCriticalServiceAfter": "90m",
+			"http": "http://192.168.0.103:8070/health",
+			"interval": "10s"
+		  }
+		}
+	]
+}

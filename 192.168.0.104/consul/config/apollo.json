@@ -1,0 +1,26 @@
+{
+	"services": [
+		{
+		  "id": "apollo-configservice-04",
+		  "name": "apollo-configservice",
+		  "address": "192.168.0.104",
+		  "port": 8080,
+		  "check": {
+			"deregisterCriticalServiceAfter": "90m",
+			"http": "http://192.168.0.104:8080/health",
+			"interval": "10s"
+		  }
+		},
+		{
+		  "id": "apollo-adminservice-04",
+		  "name": "apollo-adminservice",
+		  "address": "192.168.0.104",
+		  "port": 8090,
+		  "check": {
+			"deregisterCriticalServiceAfter": "90m",
+			"http": "http://192.168.0.104:8090/health",
+			"interval": "10s"
+		  }
+		}
+	]
+}
