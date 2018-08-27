@@ -5,6 +5,7 @@ services:
     container_name: nginx-${Node}
     image: nginx
     network_mode: host
+    restart: always
     volumes:
       - "${Workdir}/nginx/html:/usr/share/nginx/html"
       - "${Workdir}/nginx/nginx.conf:/etc/nginx/nginx.conf"
