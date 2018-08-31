@@ -8,6 +8,10 @@ MysqlPassword=123456
 .PHONY: run stop
 
 run:
+	if [ -z `grep -E vm.max_map_count /etc/sysctl.conf` ]; then \
+		echo "vm.max_map_count=262144" >> /etc/sysctl.conf; \
+	fi; \
+	grep vm.max_map_count /etc/sysctl.conf; \
 	env	Host=$(Host) \
 		Node=$(Node) \
 		Workdir=$(Workdir) \
