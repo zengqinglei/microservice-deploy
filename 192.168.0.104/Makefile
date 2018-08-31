@@ -1,10 +1,11 @@
 Host=192.168.0.104
 ConsulJoinHost=192.168.0.103
-Node=node04
+Node=4
 Workdir=~/workrelease
 MysqlHost=192.168.0.105:3306
 MysqlUserName=root
 MysqlPassword=123456
+ZookeeperServers=server.1=$(Host):2888:3888 server.2=$(ConsulJoinHost):2888:3888
 
 .PHONY: run stop
 
@@ -20,6 +21,7 @@ run:
 		MysqlHost=$(MysqlHost) \
 		MysqlUserName=$(MysqlUserName) \
 		MysqlPassword=$(MysqlPassword) \
+		ZookeeperServers=$(ZookeeperServers) \
 		docker-compose up -d
 
 stop:

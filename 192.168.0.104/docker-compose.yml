@@ -7,10 +7,10 @@ services:
     network_mode: host
     restart: always
     volumes:
-      - "${Workdir}/nginx/html:/usr/share/nginx/html"
-      - "${Workdir}/nginx/nginx.conf:/etc/nginx/nginx.conf"
-      - "${Workdir}/nginx/conf.d/:/etc/nginx/conf.d/"
-      - "${Workdir}/nginx/logs/:/var/log/nginx/"
+      - ${Workdir}/nginx/html:/usr/share/nginx/html
+      - ${Workdir}/nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ${Workdir}/nginx/conf.d/:/etc/nginx/conf.d/
+      - ${Workdir}/nginx/logs/:/var/log/nginx/
 
   keepalived:
     container_name: keepalived-${Node}
@@ -21,7 +21,7 @@ services:
     depends_on:
       - nginx
     volumes:
-      - "${Workdir}/keepalived/:/etc/keepalived/"
+      - ${Workdir}/keepalived/:/etc/keepalived/
 
   consul:
     container_name: consul-${Node}
@@ -30,18 +30,18 @@ services:
     network_mode: host
     restart: always
     volumes:
-      - "${Workdir}/consul/data:/consul/data"
-      - "${Workdir}/consul/config:/consul/config"
+      - ${Workdir}/consul/data:/consul/data
+      - ${Workdir}/consul/config:/consul/config
 
   apollo-configservice:
     container_name: apollo-configservice-${Node}
     image: registry.cn-shenzhen.aliyuncs.com/zengql-release/apollo-configservice:1.0.0
     network_mode: host
     expose:
-      - "8080"
+      - 8080
     restart: always
     volumes:
-      - "${Workdir}/apollo/configservice/logs:/opt/logs/100003171"
+      - ${Workdir}/apollo/configservice/logs:/opt/logs/100003171
     environment:
       - spring_datasource_url=jdbc:mysql://${MysqlHost}/ApolloConfigDB?characterEncoding=utf8
       - spring_datasource_username=${MysqlUserName}
@@ -52,12 +52,12 @@ services:
     image: registry.cn-shenzhen.aliyuncs.com/zengql-release/apollo-adminservice:1.0.0
     network_mode: host
     expose:
-      - "8090"
+      - 8090
     restart: always
     depends_on:
       - apollo-configservice
     volumes:
-      - "${Workdir}/apollo/adminservice/logs:/opt/logs/100003172"
+      - ${Workdir}/apollo/adminservice/logs:/opt/logs/100003172
     environment:
       - spring_datasource_url=jdbc:mysql://${MysqlHost}/ApolloConfigDB?characterEncoding=utf8
       - spring_datasource_username=${MysqlUserName}
@@ -68,12 +68,12 @@ services:
     image: registry.cn-shenzhen.aliyuncs.com/zengql-release/apollo-portal:1.0.0
     network_mode: host
     expose:
-      - "8070"
+      - 8070
     restart: always
     depends_on:
       - apollo-adminservice
     volumes:
-      - "${Workdir}/apollo/portal/logs:/opt/logs/100003173"
+      - ${Workdir}/apollo/portal/logs:/opt/logs/100003173
     environment:
       - JAVA_OPTS=-Dpro_meta=http://pro.meta-server.zengql.local
       - spring_datasource_url=jdbc:mysql://${MysqlHost}/ApolloPortalDB?characterEncoding=utf8
@@ -88,15 +88,28 @@ services:
     environment:
       - cluster.name=docker-cluster
       - bootstrap.memory_lock=true
-      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
-      - "network.publish_host=${Host}"
-      - "discovery.zen.ping.unicast.hosts=${ConsulJoinHost}"
+      - ES_JAVA_OPTS=-Xms512m -Xmx512m
+      - network.publish_host=${Host}
+      - discovery.zen.ping.unicast.hosts=${ConsulJoinHost}
     ulimits:
       memlock:
         soft: -1
         hard: -1
     volumes:
       - esdata:/usr/share/elasticsearch/data/
+
+  zookeeper:
+    container_name: zookeeper-${Node}
+    image: zookeeper
+    network_mode: host
+    restart: always
+    environment:
+      - ZOO_MY_ID=${Node}
+      - ZOO_SERVERS=${ZookeeperServers}
+    volumes:
+      - ${Workdir}/zookeeper/data/:/opt/zookeeper/data/
+      - ${Workdir}/zookeeper/logs/:/opt/zookeeper/logs/
+      - ${Workdir}/zookeeper/conf/:/opt/zookeeper/conf/
 
 volumes:
   esdata:
