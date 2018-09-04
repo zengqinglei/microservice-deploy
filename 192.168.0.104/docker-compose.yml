@@ -2,7 +2,7 @@ version: "3.4"
 
 services:
   nginx:
-    container_name: nginx-${Node}
+    container_name: nginx
     image: nginx
     network_mode: host
     restart: always
@@ -13,7 +13,7 @@ services:
       - ${Workdir}/nginx/logs/:/var/log/nginx/
 
   keepalived:
-    container_name: keepalived-${Node}
+    container_name: keepalived
     image: registry.cn-shenzhen.aliyuncs.com/zengql-release/keepalived:2.0.7
     network_mode: host
     restart: always
@@ -24,8 +24,8 @@ services:
       - ${Workdir}/keepalived/:/etc/keepalived/
 
   consul:
-    container_name: consul-${Node}
-    command: agent -server -bind=${Host} -client=0.0.0.0 -retry-join=${ConsulJoinHost} -ui
+    container_name: consul
+    command: agent -server -bind=${Host} -client=0.0.0.0 -retry-join=${Server1} -ui
     image: consul
     network_mode: host
     restart: always
@@ -34,7 +34,7 @@ services:
       - ${Workdir}/consul/config:/consul/config
 
   apollo-configservice:
-    container_name: apollo-configservice-${Node}
+    container_name: apollo-configservice
     image: registry.cn-shenzhen.aliyuncs.com/zengql-release/apollo-configservice:1.0.0
     network_mode: host
     expose:
@@ -48,7 +48,7 @@ services:
       - spring_datasource_password=${MysqlPassword}
 
   apollo-adminservice:
-    container_name: apollo-adminservice-${Node}
+    container_name: apollo-adminservice
     image: registry.cn-shenzhen.aliyuncs.com/zengql-release/apollo-adminservice:1.0.0
     network_mode: host
     expose:
@@ -64,7 +64,7 @@ services:
       - spring_datasource_password=${MysqlPassword}
 
   apollo-portal:
-    container_name: apollo-portal-${Node}
+    container_name: apollo-portal
     image: registry.cn-shenzhen.aliyuncs.com/zengql-release/apollo-portal:1.0.0
     network_mode: host
     expose:
@@ -81,16 +81,19 @@ services:
       - spring_datasource_password=${MysqlPassword}
 
   elasticsearch:
-    container_name: elasticsearch-${Node}
-    image: docker.elastic.co/elasticsearch/elasticsearch:6.4.0
+    container_name: elasticsearch
+    image: registry.cn-shenzhen.aliyuncs.com/zengql-release/elasticsearch:5.6.11
     network_mode: host
     restart: always
     environment:
-      - cluster.name=docker-cluster
+      - cluster.name=CollectorDBCluster
       - bootstrap.memory_lock=true
       - ES_JAVA_OPTS=-Xms512m -Xmx512m
+      - node.master=true
       - network.publish_host=${Host}
-      - discovery.zen.ping.unicast.hosts=${ConsulJoinHost}
+      - discovery.zen.ping.unicast.hosts=${Server1},${Server2},${Server3}
+      - discovery.zen.minimum_master_nodes=2
+      - xpack.security.enabled=false
     ulimits:
       memlock:
         soft: -1
@@ -99,13 +102,13 @@ services:
       - esdata:/usr/share/elasticsearch/data/
 
   zookeeper:
-    container_name: zookeeper-${Node}
+    container_name: zookeeper
     image: zookeeper
     network_mode: host
     restart: always
     environment:
-      - ZOO_MY_ID=${Node}
-      - ZOO_SERVERS=${ZookeeperServers}
+      - ZOO_MY_ID=${NodeId}
+      - ZOO_SERVERS=server.1=${Server1}:2888:3888 server.2=${Server2}:2888:3888 server.3=${Server3}:2888:3888
     volumes:
       - ${Workdir}/zookeeper/data/:/opt/zookeeper/data/
       - ${Workdir}/zookeeper/logs/:/opt/zookeeper/logs/

@@ -1,7 +1,7 @@
 {
 	"services": [
 		{
-		  "id": "apollo-configservice-03",
+		  "id": "apollo-configservice-3",
 		  "name": "apollo-configservice",
 		  "address": "192.168.0.103",
 		  "port": 8080,
@@ -12,7 +12,7 @@
 		  }
 		},
 		{
-		  "id": "apollo-adminservice-03",
+		  "id": "apollo-adminservice-3",
 		  "name": "apollo-adminservice",
 		  "address": "192.168.0.103",
 		  "port": 8090,
@@ -23,7 +23,7 @@
 		  }
 		},
 		{
-		  "id": "apollo-portal-03",
+		  "id": "apollo-portal-3",
 		  "name": "apollo-portal",
 		  "address": "192.168.0.103",
 		  "port": 8070,

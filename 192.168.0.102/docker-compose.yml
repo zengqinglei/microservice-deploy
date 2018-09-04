@@ -25,7 +25,7 @@ services:
 
   consul:
     container_name: consul
-    command: agent -server -bind=${Host} -client=0.0.0.0 -retry-join=${Server1} -ui
+    command: agent -server -bind=${Host} -client=0.0.0.0 -bootstrap-expect=2 -ui
     image: consul
     network_mode: host
     restart: always

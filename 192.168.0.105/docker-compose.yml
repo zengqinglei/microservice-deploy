@@ -1,17 +1,17 @@
-version: "3"
+version: "3.4"
 
 services:
   consul:
-    container_name: consul-${Node}
+    container_name: consul
     image: consul
     network_mode: host
     restart: always
     volumes:
       - ${Workdir}/consul/data:/data
-    command: agent -bind=192.168.0.105 -client=0.0.0.0 -retry-join=192.168.0.102
+    command: agent -bind=${Host} -client=0.0.0.0 -retry-join=${ConsulJoinHost}
 
   mysql:
-    container_name: mysql-${Node}
+    container_name: mysql
     image: mysql
     ports:
       - 3306:3306
@@ -19,10 +19,10 @@ services:
     volumes:
       - ${Workdir}/mysql/data:/var/lib/mysql
     environment:
-      - MYSQL_ROOT_PASSWORD=123456
+      - MYSQL_ROOT_PASSWORD=${MysqlPassword}
 
   mssql:
-    container_name: mssql-${Node}
+    container_name: mssql
     image: microsoft/mssql-server-linux
     ports:
       - 1433:1433
@@ -31,4 +31,4 @@ services:
       - ${Workdir}/mssql/data:/var/opt/mssql
     environment:
       - ACCEPT_EULA=Y
-      - MSSQL_SA_PASSWORD=Sa123456
+      - MSSQL_SA_PASSWORD=${MssqlPassword}

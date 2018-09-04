@@ -1,11 +1,12 @@
 Host=192.168.0.104
-ConsulJoinHost=192.168.0.103
-Node=4
+NodeId=3
+Server1=192.168.0.102
+Server2=192.168.0.103
+Server3=$(Host)
 Workdir=~/workrelease
 MysqlHost=192.168.0.105:3306
 MysqlUserName=root
 MysqlPassword=123456
-ZookeeperServers=server.1=$(Host):2888:3888 server.2=$(ConsulJoinHost):2888:3888
 
 .PHONY: run stop
 
@@ -15,13 +16,14 @@ run:
 	fi; \
 	grep vm.max_map_count /etc/sysctl.conf; \
 	env	Host=$(Host) \
-		ConsulJoinHost=$(ConsulJoinHost) \
-		Node=$(Node) \
+		NodeId=$(NodeId) \
+		Server1=$(Server1) \
+		Server2=$(Server2) \
+		Server3=$(Server3) \
 		Workdir=$(Workdir) \
 		MysqlHost=$(MysqlHost) \
 		MysqlUserName=$(MysqlUserName) \
 		MysqlPassword=$(MysqlPassword) \
-		ZookeeperServers=$(ZookeeperServers) \
 		docker-compose up -d
 
 stop:

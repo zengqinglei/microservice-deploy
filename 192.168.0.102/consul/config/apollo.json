@@ -1,35 +1,35 @@
 {
 	"services": [
 		{
-		  "id": "apollo-configservice-4",
+		  "id": "apollo-configservice-2",
 		  "name": "apollo-configservice",
-		  "address": "192.168.0.104",
+		  "address": "192.168.0.102",
 		  "port": 8080,
 		  "check": {
 			"deregisterCriticalServiceAfter": "90m",
-			"http": "http://192.168.0.104:8080/health",
+			"http": "http://192.168.0.102:8080/health",
 			"interval": "10s"
 		  }
 		},
 		{
-		  "id": "apollo-adminservice-4",
+		  "id": "apollo-adminservice-2",
 		  "name": "apollo-adminservice",
-		  "address": "192.168.0.104",
+		  "address": "192.168.0.102",
 		  "port": 8090,
 		  "check": {
 			"deregisterCriticalServiceAfter": "90m",
-			"http": "http://192.168.0.104:8090/health",
+			"http": "http://192.168.0.102:8090/health",
 			"interval": "10s"
 		  }
 		},
 		{
-		  "id": "apollo-portal-4",
+		  "id": "apollo-portal-2",
 		  "name": "apollo-portal",
-		  "address": "192.168.0.104",
+		  "address": "192.168.0.102",
 		  "port": 8070,
 		  "check": {
 			"deregisterCriticalServiceAfter": "90m",
-			"http": "http://192.168.0.104:8070/health",
+			"http": "http://192.168.0.102:8070/health",
 			"interval": "10s"
 		  }
 		}

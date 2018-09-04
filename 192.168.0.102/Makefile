@@ -1,7 +1,7 @@
-Host=192.168.0.103
-NodeId=2
-Server1=192.168.0.102
-Server2=$(Host)
+Host=192.168.0.102
+NodeId=1
+Server1=$(Host)
+Server2=192.168.0.103
 Server3=192.168.0.104
 Workdir=~/workrelease
 MysqlHost=192.168.0.105:3306

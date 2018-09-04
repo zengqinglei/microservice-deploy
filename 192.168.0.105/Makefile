@@ -1,15 +1,17 @@
 Host=192.168.0.105
-ConsulJoinHost=192.168.0.103
-Node=5
+ConsulJoinHost=192.168.0.102
 Workdir=~/workrelease
+MysqlPassword=123456
+MssqlPassword=Sa123456
 
 .PHONY: run stop
 
 run:
 	env	Host=$(Host) \
 		ConsulJoinHost=$(ConsulJoinHost) \
-		Node=$(Node) \
 		Workdir=$(Workdir) \
+		MysqlPassword=$(MysqlPassword) \
+		MssqlPassword=$(MssqlPassword) \
 		docker-compose up -d
 
 stop:
