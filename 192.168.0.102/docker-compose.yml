@@ -114,6 +114,21 @@ services:
       - ${Workdir}/zookeeper/logs/:/opt/zookeeper/logs/
       - ${Workdir}/zookeeper/conf/:/opt/zookeeper/conf/
 
+  skywalking:
+    container_name: skywalking
+    image: registry.cn-shenzhen.aliyuncs.com/zengql-release/skywalking:5.0.0-beta2
+    restart: always
+    ports:
+      - 18080:8080
+      - 10800:10800
+      - 11800:11800
+      - 12800:12800
+    environment:
+      - zookeeper_hostPort=${Host}:2181
+      - remote_gRPC_host=0.0.0.0
+      - agent_gRPC_host=0.0.0.0
+      - storage_elasticsearch_clusterNodes=${Server1}:9300,${Server2}:9300,${Server3}:9300
+
 volumes:
   esdata:
     driver: local
