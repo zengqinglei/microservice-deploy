@@ -128,6 +128,8 @@ services:
       - remote_gRPC_host=0.0.0.0
       - agent_gRPC_host=0.0.0.0
       - storage_elasticsearch_clusterNodes=${Server1}:9300,${Server2}:9300,${Server3}:9300
+    volumes:
+      - ${Workdir}/skywalking/logs/:/skywalking/logs/
 
 volumes:
   esdata:
