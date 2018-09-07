@@ -125,8 +125,11 @@ services:
       - 12800:12800
     environment:
       - zookeeper_hostPort=${Host}:2181
+      - naming_jetty_host=0.0.0.0
       - remote_gRPC_host=0.0.0.0
       - agent_gRPC_host=0.0.0.0
+      - agent_jetty_host=0.0.0.0
+      - ui_jetty_host=0.0.0.0
       - storage_elasticsearch_clusterNodes=${Server1}:9300,${Server2}:9300,${Server3}:9300
     volumes:
       - ${Workdir}/skywalking/logs/:/skywalking/logs/
