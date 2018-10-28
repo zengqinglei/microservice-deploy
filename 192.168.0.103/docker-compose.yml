@@ -23,20 +23,12 @@ services:
     volumes:
       - ${Workdir}/keepalived/:/etc/keepalived/
 
-  consul:
-    container_name: consul
-    command: agent -server -bind=${Host} -client=0.0.0.0 -retry-join=${Server1} -ui
-    image: consul
-    network_mode: host
-    restart: always
-    volumes:
-      - ${Workdir}/consul/data:/consul/data
-      - ${Workdir}/consul/config:/consul/config
-
   apollo-configservice:
     container_name: apollo-configservice
     image: registry.cn-shenzhen.aliyuncs.com/zengql-release/apollo-configservice:1.0.0
     network_mode: host
+    depends_on:
+      - keepalived
     expose:
       - 8080
     restart: always
@@ -80,11 +72,25 @@ services:
       - spring_datasource_username=${MysqlUserName}
       - spring_datasource_password=${MysqlPassword}
 
+  consul:
+    container_name: consul
+    command: agent -server -bind=${Host} -client=0.0.0.0 -retry-join=${Server1} -ui
+    image: consul
+    network_mode: host
+    restart: always
+    depends_on:
+      - apollo-portal
+    volumes:
+      - ${Workdir}/consul/data:/consul/data
+      - ${Workdir}/consul/config:/consul/config
+
   elasticsearch:
     container_name: elasticsearch
     image: registry.cn-shenzhen.aliyuncs.com/zengql-release/elasticsearch:5.6.11
     network_mode: host
     restart: always
+    depends_on:
+      - keepalived
     environment:
       - cluster.name=CollectorDBCluster
       - bootstrap.memory_lock=true
@@ -106,6 +112,8 @@ services:
     image: zookeeper
     network_mode: host
     restart: always
+    depends_on:
+      - keepalived
     environment:
       - ZOO_MY_ID=${NodeId}
       - ZOO_SERVERS=server.1=${Server1}:2888:3888 server.2=${Server2}:2888:3888 server.3=${Server3}:2888:3888
@@ -118,6 +126,9 @@ services:
     container_name: skywalking
     image: registry.cn-shenzhen.aliyuncs.com/zengql-release/skywalking:5.0.0-beta2
     restart: always
+    depends_on:
+      - elasticsearch
+      - zookeeper
     ports:
       - 18080:8080
       - 10800:10800
@@ -134,23 +145,27 @@ services:
     volumes:
       - ${Workdir}/skywalking/logs/:/skywalking/logs/
 
-  kibana:
-    container_name: kibana
-    image: registry.cn-shenzhen.aliyuncs.com/zengql-release/kibana:5.6.11
-    restart: always
-    ports:
-      - 5601:5601
-    environment:
-      - ELASTICSEARCH_URL=http://${Host}:9200
-
   logstash:
     container_name: logstash
     image: registry.cn-shenzhen.aliyuncs.com/zengql-release/logstash:5.6.11
     restart: always
+    depends_on:
+      - elasticsearch
     volumes:
       - ${Workdir}/logstash/pipeline/:/usr/share/logstash/pipeline/
       - ${Workdir}/logstash/config/:/usr/share/logstash/config/
       - ${Workdir}/logstash/logs/:/usr/share/logstash/logs/
+
+  kibana:
+    container_name: kibana
+    image: registry.cn-shenzhen.aliyuncs.com/zengql-release/kibana:5.6.11
+    restart: always
+    depends_on:
+      - logstash
+    ports:
+      - 5601:5601
+    environment:
+      - ELASTICSEARCH_URL=http://${Host}:9200
 
 volumes:
   esdata:
