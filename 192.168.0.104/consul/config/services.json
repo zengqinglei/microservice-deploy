@@ -32,6 +32,17 @@
 			"http": "http://192.168.0.104:8070/health",
 			"interval": "10s"
 		  }
-		}
+		},
+                {
+                  "id": "elasticsearch-4",
+                  "name": "elasticsearch",
+                  "address": "192.168.0.104",
+                  "port": 9200,
+                  "check": {
+                        "deregisterCriticalServiceAfter": "90m",
+                        "http": "http://192.168.0.104:9200",
+                        "interval": "10s"
+                  }
+                }
 	]
 }
