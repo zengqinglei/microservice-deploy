@@ -1,6 +1,6 @@
 # 微服务完整集群部署引导
 
-项目主要是这次[微服务系列实践](http://localhost)的完整集群部署方案，docker 编排的镜像用意都可以在文章中找到介绍。
+项目主要是这次[微服务系列实践](https://github.com/zengqinglei/microservice-deploy/wiki)的完整集群部署方案，docker 编排的镜像用意都可以在文章中找到介绍。
 
 ## 完整部署架构图
 
