@@ -10,6 +10,9 @@
 3. ubuntu-04：192.168.0.104 应用集群节点-4
 4. ubuntu-05：192.168.0.105 数据库节点-5
 
+![main-1](https://user-images.githubusercontent.com/7374317/50370193-2f3dc780-05dd-11e9-960d-5d8efcd32cef.png)
+
+![mic-service-arc](https://user-images.githubusercontent.com/7374317/50370197-3f55a700-05dd-11e9-986d-442db78258ea.png)
 
 ## 部署引导教程
 
